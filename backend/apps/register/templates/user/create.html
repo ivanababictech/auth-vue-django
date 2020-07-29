@@ -1,0 +1,112 @@
+{% extends "main_template.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card">
+                    <h4 class="card-header text-center">Register</h4>
+                    <div class="card-block">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input name="first_name" type="text" id="first_name" class="form-control form-control-danger">
+                                <div class="form-group text-danger">
+                                    <div class="form-control-feedback first_name_error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input name="last_name" type="text" id="last_name" class="form-control">
+                                <div class="form-group text-danger">
+                                    <div class="form-control-feedback last_name_error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input name="email" type="email" id="email" class="form-control">
+                                <div class="form-group text-danger">
+                                    <div class="form-control-feedback email_error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input name="password" type="password" id="password" class="form-control">
+                                <div class="form-group text-danger">
+                                    <div class="form-control-feedback password_error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input name="confirm_password" type="password" id="confirm_password" class="form-control">
+                                <div class="form-group text-danger">
+                                    <div class="form-control-feedback confirm_password_error"></div>
+                                </div>
+                            </div>
+                            <div class="mx-auto text-center">
+                                <button type="button" class="btn btn-primary" onclick="register()">Create Account</button>
+                                <a href="/success" class="btn btn-default">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function register() {
+            var data = {
+                "first_name": $("#first_name").val(),
+                "last_name": $("#last_name").val(),
+                "email": $("#email").val(),
+                "password": $("#password").val(),
+                "confirm_password": $("#confirm_password").val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }
+            $.ajax({
+                url: '/user/create',
+                data: data,
+                dataType: 'json',
+                type: "POST",
+                success: function (success) {
+                    if (success.tag.includes('first_name')) {
+                        formatText()
+                        $(".first_name_error").text(success.message)
+                    }
+
+                    if (success.tag.includes('last_name')) {
+                        formatText()
+                        $(".last_name_error").text(success.message)
+                    }
+
+                    if (success.tag.includes('email')) {
+                        formatText()
+                        $(".email_error").text(success.message)
+                    }
+
+                    if (success.tag.includes('password')) {
+                        formatText()
+                        $(".password_error").text(success.message)
+                    }
+
+                    if (success.tag.includes('confirm_password')) {
+                        formatText()
+                        $(".confirm_password_error").text(success.message)
+                    }
+
+                    if (success.tag.includes('success')) {
+                        location.href="/success"
+                    }
+                }
+            });
+        }
+
+        function formatText() {
+            $(".first_name_error").text("")
+            $(".last_name_error").text("")
+            $(".email_error").text("")
+            $(".password_error").text("")
+            $(".confirm_password_error").text("")
+        }
+    </script>
+{% endblock %}

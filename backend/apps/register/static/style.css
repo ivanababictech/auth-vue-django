@@ -1,0 +1,27 @@
+.container {
+    margin-top: 50px !important;
+}
+.card-block {
+    padding: 30px !important;
+}
+.messages {
+    padding-left: 0px !important;
+    list-style-type: none;
+}
+
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+}
+
+.img-thumbnail {
+    width: 150px;
+}
+#picture_preview {
+    display: flex !important;
+    margin: 0 auto !important;
+}
+.btn-create-user {
+    text-align: right;
+    margin-bottom: 15px;
+}
