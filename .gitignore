@@ -1,0 +1,6 @@
+*/node_modules/
+**/.vscode
+.DS_store
+**/coverage
+frontend/src/__tests__/__snapshots__
+backend/.env
